@@ -1,0 +1,21 @@
+name: "Compile Flipper App"
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build with ufbt
+        uses: flipperdevices/flipperzero-ufbt-action@v0.1
+        id: build-app
+        with:
+          sdk-channel: release 
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Flipper-Binaries
+          path: ${{ steps.build-app.outputs.fap-artifacts }}
